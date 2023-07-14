@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Generator</title>
+</head>
+<body>
+    <h1>Image Generator</h1>
+    <form action="/image" method="get">
+        <label for="prompt">Enter a prompt:</label><br>
+        <input type="text" id="prompt" name="prompt"><br>
+        <input type="submit" value="Generate Image">
+    </form>
+    <div id="imageContainer">
+        <img id="generatedImage" src="" alt="Generated Image">
+    </div>
+    <script>
+        const form = document.querySelector('form');
+        const img = document.querySelector('#generatedImage');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const prompt = document.querySelector('#prompt').value;
+            fetch(`/image?prompt=${prompt}`)
+                .then(response => response.json())
+                .then(data => {
+                    img.src = `/static/images/${data.image_url}`;
+                });
+        });
+    </script>
+</body>
+</html>
